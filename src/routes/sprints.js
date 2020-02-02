@@ -166,7 +166,7 @@ router.get('/get', checkGetFields, async (req, res) => {
     // Create new voter
     const newVoter = new Voter({
       name: `Voter ${voters.length || 0}`,
-      sprint: sprintId,
+      sprint: sprint._id,
       orderInSprint: voters.length - 1
     });
     const savedVoter = await newVoter.save();
@@ -176,6 +176,7 @@ router.get('/get', checkGetFields, async (req, res) => {
     const sprintModel = getSprintModel(sprint, newVoters, stories);
 
     req.session.voterId = savedVoter._id;
+    req.session.sprintId = sprint._id;
 
     return res.status(200).json(sprintModel);
   } catch (err) {
